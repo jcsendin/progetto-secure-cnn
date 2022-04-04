@@ -53,3 +53,12 @@ def create_adversarial_pattern(model, input_image, input_label):
 	signed_grad = tf.sign(gradient)
 
 	return signed_grad
+
+
+def create_adversarial_image(model, image, label, eps=0.1):
+	perturbations = create_adversarial_pattern(model, image, label)
+	adversary = image + eps*perturbations
+	adversary = tf.clip_by_value(adversary, -1, 1)
+
+	return adversary
+	
