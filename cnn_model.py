@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 #DATA--------------------------------------
 
 #Metadata
-EPOCHS = 200
+EPOCHS = 1
 BATCH_SIZE = 64
 
 #Dataset we will be using - Cifar10
@@ -56,20 +56,20 @@ def show_classes(data, classes):
 	plt.show()
 
 
-#this is an example model, it is not the best model but works fine for what we want to achieve
 def build_model():
 	model = tfk.models.Sequential()
-	model.add(tfk.layers.Conv2D(32, (3, 3), activation='relu', input_shape=INPUT_SHAPE, padding="same"))
+	model.add(tfk.layers.Conv2D(64, (3, 3), activation='relu', input_shape=INPUT_SHAPE, padding="same"))
 	model.add(tfk.layers.MaxPooling2D((2, 2)))
 
-	model.add(tfk.layers.Conv2D(64, (3, 3), activation='relu', padding="same"))
+	model.add(tfk.layers.Conv2D(128, (3, 3), activation='relu', padding="same"))
 	model.add(tfk.layers.MaxPooling2D((2, 2)))
 
-	model.add(tfk.layers.Conv2D(64, (3, 3), activation='relu', padding="same"))
+	model.add(tfk.layers.Conv2D(256, (3, 3), activation='relu', padding="same"))
 	model.add(tfk.layers.MaxPooling2D((2, 2)))
 
 	model.add(tfk.layers.Flatten())
-	model.add(tfk.layers.Dense(64, activation='relu'))
+	model.add(layers.Dropout(0.3))
+	model.add(tfk.layers.Dense(1024, activation='relu'))
 	model.add(tfk.layers.Dropout(0.3))
 	model.add(tfk.layers.Dense(OUTPUT_SHAPE, activation='softmax'))
 
