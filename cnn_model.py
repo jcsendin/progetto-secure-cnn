@@ -68,7 +68,7 @@ def build_model():
 	model.add(tfk.layers.MaxPooling2D((2, 2)))
 
 	model.add(tfk.layers.Flatten())
-	model.add(layers.Dropout(0.3))
+	model.add(tfk.layers.Dropout(0.3))
 	model.add(tfk.layers.Dense(1024, activation='relu'))
 	model.add(tfk.layers.Dropout(0.3))
 	model.add(tfk.layers.Dense(OUTPUT_SHAPE, activation='softmax'))
