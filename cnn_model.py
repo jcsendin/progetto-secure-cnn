@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 #DATA--------------------------------------
 
 #Metadata
-EPOCHS = 1
+EPOCHS = 200
 BATCH_SIZE = 64
 
 #Dataset we will be using - Cifar10

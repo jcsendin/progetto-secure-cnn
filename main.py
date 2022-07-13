@@ -61,14 +61,14 @@ if __name__ == "__main__":
 	#THIRD STEP - Applying some defenses
 
 	#Showing the effect of the adversarial attack 
-	adv_test_images, adv_test_labels = next(generate_adversarial_batch(model, len(test_images), test_images, test_labels, INPUT_SHAPE, 0.05) )
+	adv_test_images, adv_test_labels = next(generate_adversarial_batch(model, len(test_images), test_images, test_labels, INPUT_SHAPE, 0.1) )
 	adv_loss, adv_acc = model.evaluate(x=adv_test_images, y=adv_test_labels, verbose=0)
 
 	print(adv_acc)
 
 
 	#We are going to start with a first defense. We will fine-tune our model with a batch of adversarial images
-	adv_train_images, adv_train_labels = next(generate_adversarial_batch(model, len(train_images), train_images, train_labels, (32, 32, 3), 0.05) )
+	adv_train_images, adv_train_labels = next(generate_adversarial_batch(model, len(train_images), train_images, train_labels, (32, 32, 3), 0.1) )
 
 	#To fine tune we decrease the learning rate of the optimizer
 	model.compile(optimizer=tf.keras.optimizers.Adam(1e-4),
@@ -92,8 +92,8 @@ if __name__ == "__main__":
 
 
 	#Second method, we are going to fine-tune with a mixed batch of normal and adversarial images
-	train_mix_images, train_mix_labels = next(generate_mixed_adversarial_batch(model, len(train_images), train_images, train_labels, (32, 32, 1), eps=0.1, split=0.05))
-	test_mix_images, test_mix_labels = next(generate_mixed_adversarial_batch(model, len(test_images), test_images, test_labels, (32, 32, 1), eps=0.1, split=0.05))
+	train_mix_images, train_mix_labels = next(generate_mixed_adversarial_batch(model, len(train_images), train_images, train_labels, (32, 32, 1), eps=0.1, split=0.1))
+	test_mix_images, test_mix_labels = next(generate_mixed_adversarial_batch(model, len(test_images), test_images, test_labels, (32, 32, 1), eps=0.1, split=0.1))
 
 	model.compile(optimizer=tf.keras.optimizers.Adam(1e-4),
 			loss=LOSS_OBJECT,
