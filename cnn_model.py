@@ -110,6 +110,6 @@ def prepare_model(train_data, test_data):
 	model = build_model()
 	history = train_model(model, train_data, test_data)
 
-	show_metrics(history)
+	#show_metrics(history)
 
 	return model

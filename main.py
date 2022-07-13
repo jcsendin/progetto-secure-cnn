@@ -7,6 +7,7 @@
 
 #IMPORTS-----------------------------------
 import tensorflow.keras as tfk
+import os
 
 from cnn_model import *
 from fgsm import *
@@ -24,6 +25,10 @@ if __name__ == "__main__":
 	model = prepare_model(train_data, test_data)
 	test_loss, test_acc = model.evaluate(test_images,	test_labels, verbose=2)
 	print(test_acc)
+
+	#Saving the model in ONNX format
+	model.save("savedmodel")
+	os.system("python -m tf2onnx.convert --saved-model savedmodel --output models/BaseModel.onnx")
 
 
 	#SECOND STEP - Creating adversarial images
@@ -50,7 +55,7 @@ if __name__ == "__main__":
 		image_probs = model.predict(image)
 		image_class, confidence = get_labels(image_probs[0], CLASS_NAMES)
 
-		display_image(adv_x, descriptions[i],image_class, confidence)
+		#display_image(adv_x, descriptions[i],image_class, confidence)
 		
 
 	#THIRD STEP - Applying some defenses
@@ -81,6 +86,10 @@ if __name__ == "__main__":
 	adv_loss, adv_acc = model.evaluate(x=test_images, y=test_labels, verbose=0)
 	print("Test Images Accuracy",adv_acc)
 
+	#Saving the model in ONNX format
+	model.save("savedmodel")
+	os.system("python -m tf2onnx.convert --saved-model savedmodel --output models/ModelFirstDef.onnx")
+
 
 	#Second method, we are going to fine-tune with a mixed batch of normal and adversarial images
 	train_mix_images, train_mix_labels = next(generate_mixed_adversarial_batch(model, len(train_images), train_images, train_labels, (32, 32, 1), eps=0.1, split=0.05))
@@ -104,3 +113,7 @@ if __name__ == "__main__":
 
 	adv_loss, adv_acc = model.evaluate(x=adv_test_images, y=adv_test_labels, verbose=0)
 	print("Adversarial Test Images Accuracy",adv_acc)
+
+	#Saving the model in ONNX format
+	model.save("savedmodel")
+	os.system("python -m tf2onnx.convert --saved-model savedmodel --output models/ModelSecondDef.onnx")
