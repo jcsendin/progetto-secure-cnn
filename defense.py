@@ -14,10 +14,12 @@ import numpy as np
 from fgsm import create_adversarial_image
 from sklearn.utils import shuffle
 
+from constants import *
+
 
 #FUNCTIONS---------------------------------
 
-def generate_adversarial_batch(model, total, images, labels, dims, eps=0.1):
+def generate_adversarial_batch(model, total, images, labels, dims, eps=EPSILON):
 	while True:
 		perturbImages = []
 		perturbLabels = []
@@ -38,7 +40,7 @@ def generate_adversarial_batch(model, total, images, labels, dims, eps=0.1):
 		yield (np.array(perturbImages), np.array(perturbLabels))
 
 
-def generate_mixed_adversarial_batch(model, total, images, labels, dims, eps=0.01, split=0.5):
+def generate_mixed_adversarial_batch(model, total, images, labels, dims, eps=EPSILON, split=SPLIT):
 	#the split indicates the percentage of adversarial images
 	totalAdv = int(total * split)
 	totalNormal = int(total * (1 - split))

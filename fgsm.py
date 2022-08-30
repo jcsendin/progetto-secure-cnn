@@ -10,10 +10,11 @@
 #IMPORTS-----------------------------------
 import tensorflow as tf
 import matplotlib.pyplot as plt
-import skimage.io
 import numpy as np
 
 from cnn_model import LOSS_OBJECT
+
+from constants import *
 
 
 #FUNCTIONS---------------------------------
@@ -55,7 +56,7 @@ def create_adversarial_pattern(model, input_image, input_label):
 	return signed_grad
 
 
-def create_adversarial_image(model, image, label, eps=0.1):
+def create_adversarial_image(model, image, label, eps=EPSILON):
 	perturbations = create_adversarial_pattern(model, image, label)
 	adversary = image + eps*perturbations
 	adversary = tf.clip_by_value(adversary, -1, 1)

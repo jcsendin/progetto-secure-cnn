@@ -1,0 +1,3 @@
+
+EPSILON = 0.015
+SPLIT = 0.01
